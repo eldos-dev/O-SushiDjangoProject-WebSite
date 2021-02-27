@@ -4,7 +4,7 @@ from django.db import models
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('Email is required')
         email = self.normalize_email(email)
@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         return self.is_superuser
 
-    def has_module_perm(self, app_label):
+    def has_module_perms(self, app_label):
         return self.is_staff
 
     def create_activation_code(self):
