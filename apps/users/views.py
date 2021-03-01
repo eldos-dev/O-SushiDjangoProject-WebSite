@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, CreateView, DetailView
+from django.views.generic import CreateView, DetailView
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import get_user_model
@@ -7,9 +7,6 @@ from django.urls import reverse_lazy
 
 from apps.users.forms import RegistrationForm
 
-
-class IndexPage(TemplateView):
-    template_name = 'users/index.html'
 
 User = get_user_model()
 

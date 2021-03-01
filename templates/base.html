@@ -53,6 +53,14 @@
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
+     <style type="text/css">
+        .nav-item .nav-menu li:hover>a {
+            background:  #ed1890;
+        }
+        .inner-header .advanced-search .input-group button {
+            background:  #ed1890;
+        }
+     </style>
 
 </head>
 
@@ -185,25 +193,21 @@
                         <i class="ti-menu"></i>
                         <span>Все категории</span>
                         <ul class="depart-hover">
-                            <li class="active"><a href="#">Роллы</a></li>
-                            <li><a href="#">Суши</a></li>
-                            <li><a href="#">Сеты</a></li>
-                            <li><a href="#">Горячий ролл</a></li>
-                            <li><a href="#">Суп</a></li>
-                            <li><a href="#">Капа</a></li>
-                            <li><a href="#">Маки</a></li>
+                            {% for category in categories %}
+                                    <li><a href="{% url 'category-detail' category.slug %}">{{ category }}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li class="active"><a href="./index.html">Главная</a></li>
+                        <li class="active"><a href="{% url 'index' %}" style="background-color: #ed1890">Главная</a></li>
                         <li><a href="./shop.html">О нас</a></li>
                         <li><a href="./blog.html">Отзывы</a></li>
                         <li><a href="./contact.html">Контакты</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
-                                <li><a href="./blog-details.html">Blog Details</a></li>
+                                <li><a href="#">Blog Details</a></li>
                                 <li><a href="{% url 'registration' %}">Регистрация</a></li>
                                 <li><a href="login">Войти</a></li>
                             </ul>
@@ -222,7 +226,7 @@
     {% endblock %}
 
 
-
+<div class="row"></div>
 
     <!-- Footer Section Begin -->
     <footer class="footer-section">
@@ -310,6 +314,27 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{% static 'js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+
+      <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="static 'files/js/bootstrap.js' %}"></script>
+  <!-- SmartMenus jQuery plugin -->
+  <script type="text/javascript" src="static 'files/js/jquery.smartmenus.js' %}"></script>
+  <!-- SmartMenus jQuery Bootstrap Addon -->
+  <script type="text/javascript" src="static 'files/js/jquery.smartmenus.bootstrap.js' %}"></script>
+  <!-- To Slider JS -->
+  <script src="static 'files/js/sequence.js' %}"></script>
+  <script src="static 'files/js/sequence-theme.modern-slide-in.js' %}"></script>
+  <!-- Product view slider -->
+  <script type="text/javascript'" src="static 'files/js/jquery.simpleGallery.js' %}"></script>
+  <script type="text/javascript'" src="static 'files/js/jquery.simpleLens.js' %}"></script>
+  <!-- slick slider -->
+  <script type="text/javascript" src="static 'files/js/slick.js' %}"></script>
+  <!-- Price picker slider -->
+  <script type="text/javascript" src="static 'files/js/nouislider.js' %}"></script>
+  <!-- Custom js -->
+  <script src="static 'files/js/custom.js' %}"></script>
 </body>
 
 </html>
