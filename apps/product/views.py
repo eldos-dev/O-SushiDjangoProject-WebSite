@@ -1,12 +1,14 @@
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.contrib import messages
 from django.views.generic import ListView, TemplateView, DetailView, DeleteView, CreateView
 from django.views.generic.base import View
 
-from apps.product.forms import CreateProductForm
-from apps.product.models import Product, Category
+from apps.product.forms import CreateProductForm, CreateReviewProductForm
+from apps.product.models import Product, Category, ReviewProduct
 from apps.product.permissions import SuperUserCheckMixin
 
 
@@ -14,7 +16,7 @@ class IndexPage(ListView):
     model = Product
     template_name = 'users/index.html'
 
-    # Реализуем search
+    # Реализую search
     def get_template_names(self):
         template_name = super(IndexPage, self).get_template_names()
         search = self.request.GET.get('search')
@@ -53,19 +55,31 @@ class ProductListView(ListView):
     paginate_by = 4
 
 
+class ProductDeatilView(View):
 
+    def get(self, request, pk):
+        form = CreateReviewProductForm
+        product = get_object_or_404(Product, pk=pk)
+        reviews = ReviewProduct.objects.filter(product_id=product)
+        reviews_count = len(list(reviews))
+        return render(request, 'product/product_detail.html', locals())
 
-class ProductDeatilView(DetailView):
-    model = Product
-    template_name = 'product/product_detail.html'
-    context_object_name = 'product'
+    def post(self, request, pk):
+        user = request.user
+        product = get_object_or_404(Product, pk=pk)
+        if not user.is_authenticated:
+            return redirect(reverse_lazy('login'))
+        form = CreateReviewProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect(product.get_absolute_url())
 
 
 class ProductCreateView(SuperUserCheckMixin, CreateView):
     model = Product
     form_class = CreateProductForm
     template_name = 'product/product_create.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('product-detail')
 
 
 class ProductEditView(SuperUserCheckMixin, View):
@@ -90,7 +104,14 @@ class ProductEditView(SuperUserCheckMixin, View):
 
 class ProductDeleteView(SuperUserCheckMixin, DeleteView):
     model = Product
-    template_name = 'product/delete-product.html'
-    success_url = reverse_lazy('index')
+    template_name = 'product/product_delete.html'
+    success_url = reverse_lazy('products-list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        messages.add_message(request, messages.SUCCESS, 'Продукт успешно удалено!')
+        return HttpResponseRedirect(success_url)
 
 

@@ -87,7 +87,7 @@
                 <div class="ht-right">
                     {% if user.is_authenticated %}
                         <a href="{% url 'logout' %}" class="login-panel"><i class="icon-signin"></i>Выйти</a>
-                        <a href="#" class="login-panel"><i class="icon-user"></i>Профиль</a>
+                        <a href="{% url 'user-profile' request.user.pk %}" class="login-panel"><i class="icon-user"></i>Профиль</a>
                     {% else %}
                     <a href="{% url 'registration' %}" class="login-panel"><i class="fa fa-user"></i>Регистрация</a>
                     <a href="{% url 'login' %}" class="login-panel"><i class="icon-signin"></i>Войти</a>
@@ -177,7 +177,7 @@
                                         <h5>$120.00</h5>
                                     </div>
                                     <div class="select-button">
-                                        <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                                        <a href="#" class="primary-btn view-card">Корзина</a>
                                         <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
                                     </div>
                                 </div>
@@ -209,7 +209,9 @@
                         <li><a href="./contact.html">Контакты</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
-                                <li><a href="{% url 'product-create' %}">Создать продукт</a></li>
+                                {% if request.user.is_superuser %}
+                                    <li><a href="{% url 'product-create' %}">Создать продукт</a></li>
+                                {% endif %}
                                 <li><a href="{% url 'registration' %}">Регистрация</a></li>
                                 <li><a href="login">Войти</a></li>
                             </ul>

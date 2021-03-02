@@ -1,7 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from pytils.translit import slugify
 from django.db import models
 
+User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя категории', unique=True)
@@ -30,6 +32,17 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('product-detail', kwargs={'pk': self.id})
+
+
+class ReviewProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='commentaries', verbose_name='Продукт')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comments', verbose_name='Пользователь')
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Оставил комментарии {self.user} на продукт {self.product}'
 
 
 
