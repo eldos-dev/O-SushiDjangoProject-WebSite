@@ -1,11 +1,33 @@
-from django.shortcuts import render
-from django.views.generic import ListView, TemplateView, DetailView
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import ListView, TemplateView, DetailView, DeleteView, CreateView
+from django.views.generic.base import View
 
+from apps.product.forms import CreateProductForm
 from apps.product.models import Product, Category
+from apps.product.permissions import SuperUserCheckMixin
 
 
-class IndexPage(TemplateView):
+class IndexPage(ListView):
+    model = Product
     template_name = 'users/index.html'
+
+    # Реализуем search
+    def get_template_names(self):
+        template_name = super(IndexPage, self).get_template_names()
+        search = self.request.GET.get('search')
+        if search:
+            template_name = 'product/search.html'
+        return template_name
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search = self.request.GET.get('search')
+        if search:
+            context['products'] = Product.objects.filter(Q(title__icontains=search) | Q(description__icontains=search))  # Если recipes раньше возвращал нам все объекты, то теперь мы его переопределим
+        return context
 
 class CategoryDetailView(DetailView):
     model = Category
@@ -36,3 +58,39 @@ class ProductListView(ListView):
 class ProductDeatilView(DetailView):
     model = Product
     template_name = 'product/product_detail.html'
+    context_object_name = 'product'
+
+
+class ProductCreateView(SuperUserCheckMixin, CreateView):
+    model = Product
+    form_class = CreateProductForm
+    template_name = 'product/product_create.html'
+    success_url = reverse_lazy('index')
+
+
+class ProductEditView(SuperUserCheckMixin, View):
+
+    def get(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+        form = CreateProductForm(instance=product)
+        context = {
+            'product': product,
+            'form': form
+        }
+        return render(request, 'product/product_update.html', context)
+
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+        form = CreateProductForm(instance=product, data=request.POST)
+        if form.is_valid():
+            product = form.save()
+            return redirect(product.get_absolute_url())
+
+
+
+class ProductDeleteView(SuperUserCheckMixin, DeleteView):
+    model = Product
+    template_name = 'product/delete-product.html'
+    success_url = reverse_lazy('index')
+
+

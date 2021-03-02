@@ -87,21 +87,21 @@
                 <div class="ht-right">
                     {% if user.is_authenticated %}
                         <a href="{% url 'logout' %}" class="login-panel"><i class="icon-signin"></i>Выйти</a>
+                        <a href="#" class="login-panel"><i class="icon-user"></i>Профиль</a>
                     {% else %}
                     <a href="{% url 'registration' %}" class="login-panel"><i class="fa fa-user"></i>Регистрация</a>
                     <a href="{% url 'login' %}" class="login-panel"><i class="icon-signin"></i>Войти</a>
                     {% endif %}
-                    <div class="lan-selector">
-                        <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                            <option value='yt' data-image="{% static 'img/flag-1.jpg' %}" data-imagecss="flag yt"
-                                data-title="English">English</option>
-                            <option value='yu' data-image="{% static 'img/flag-2.jpg' %}" data-imagecss="flag yu"
-                                data-title="Bangladesh">German </option>
-                        </select>
-                    </div>
+<!--                    <div class="lan-selector">-->
+<!--                        <select class="language_drop" name="countries" id="countries" style="width:300px;">-->
+<!--                            <option value='yt' data-image="{% static 'img/flag-1.jpg' %}" data-imagecss="flag yt"-->
+<!--                                data-title="English">English</option>-->
+<!--                            <option value='yu' data-image="{% static 'img/flag-2.jpg' %}" data-imagecss="flag yu"-->
+<!--                                data-title="Bangladesh">German </option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                     <div class="top-social">
                         <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-twitter-alt"></i></a>
                         <a href="#"><i class="ti-instagram"></i></a>
                     </div>
                 </div>
@@ -121,8 +121,10 @@
                         <div class="advanced-search">
                             <button type="button" class="category-btn">Все категории</button>
                             <div class="input-group">
-                                <input type="text" placeholder="Что вам нужно?">
-                                <button type="button"><i class="ti-search"></i></button>
+                                <form action="{% url 'index' %}" method="GET">
+                                    <input name="search" type="text" placeholder="Что вам нужно?">
+                                    <button type="submit"><i class="ti-search"></i></button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -207,7 +209,7 @@
                         <li><a href="./contact.html">Контакты</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
-                                <li><a href="#">Blog Details</a></li>
+                                <li><a href="{% url 'product-create' %}">Создать продукт</a></li>
                                 <li><a href="{% url 'registration' %}">Регистрация</a></li>
                                 <li><a href="login">Войти</a></li>
                             </ul>
@@ -232,10 +234,10 @@
     <footer class="footer-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="footer-left">
                         <div class="footer-logo">
-                            <a href="#"><img src="{% static 'img/footer-logo.png' %}" alt=""></a>
+                            <a href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
                         </div>
                         <ul>
                             <li>Address: 60-49 Road 11378 New York</li>
@@ -250,38 +252,35 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 offset-lg-1">
+                <div class="col-lg-4 offset-lg-1">
                     <div class="footer-widget">
-                        <h5>Information</h5>
+                        <h5>Информация</h5>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Serivius</a></li>
+                            <li><a href="#">О нас</a></li>
+                            <li><a href="#">Контакты</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-3">
+                    {% if request.user.is_authenticated %}
                     <div class="footer-widget">
-                        <h5>My Account</h5>
+                        <h5>Мой аккаунт</h5>
                         <ul>
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Shopping Cart</a></li>
-                            <li><a href="#">Shop</a></li>
+                            <li><a href="#">Мой профиль</a></li>
                         </ul>
                     </div>
+                    {% endif %}
                 </div>
-                <div class="col-lg-4">
-                    <div class="newslatter-item">
-                        <h5>Join Our Newsletter Now</h5>
-                        <p>Get E-mail updates about our latest shop and special offers.</p>
-                        <form action="#" class="subscribe-form">
-                            <input type="text" placeholder="Enter Your Mail">
-                            <button type="button">Subscribe</button>
-                        </form>
-                    </div>
-                </div>
+<!--                <div class="col-lg-4">-->
+<!--                    <div class="newslatter-item">-->
+<!--                        <h5>Join Our Newsletter Now</h5>-->
+<!--                        <p>Get E-mail updates about our latest shop and special offers.</p>-->
+<!--                        <form action="#" class="subscribe-form">-->
+<!--                            <input type="text" placeholder="Enter Your Mail">-->
+<!--                            <button type="button">Subscribe</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </div>
         <div class="copyright-reserved">
@@ -289,12 +288,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="copyright-text">
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>.Downloaded from <a href="https://themeslab.org/" target="_blank">Themeslab</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </div>
-                        <div class="payment-pic">
-                            <img src="{% static 'img/payment-method.png' %}" alt="">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This site is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Eldos</a>/<a href="https://colorlib.com" target="_blank">Ulan</a>
                         </div>
                     </div>
                 </div>

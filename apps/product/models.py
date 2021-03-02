@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 from pytils.translit import slugify
 from django.db import models
 
@@ -26,6 +27,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy('product-detail', kwargs={'pk': self.id})
 
 
 

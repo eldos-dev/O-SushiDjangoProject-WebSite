@@ -112,9 +112,9 @@
                                       <h5 style="font-weight: 900; font-size: 18px;">{{ product.price | floatformat:"0" }} с</h5>
                                   </div>
                                   <div class="d-grid gap-2 col-6 mx-auto">
-                                    <a href="#" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">
-                                        <i class="icon-shopping-cart" style="font-size: 20px; padding-right: 15px"></i>
-                                        Заказать
+                                    <a href="{% url 'product-detail' product.pk %}" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">
+<!--                                        <i class="icon-shopping-cart" style="font-size: 20px; padding-right: 15px"></i>-->
+                                        Подробнее
                                     </a>
                                   </div>
                                   </div>
