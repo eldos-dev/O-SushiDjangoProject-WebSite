@@ -17,9 +17,11 @@ class RegistrationView(CreateView):
     template_name = 'users/registration.html'
     success_url = reverse_lazy('successful-registration')
 
+
 class SuccessfulRegistrationView(View):
     def get(self, request):
         return render(request, 'users/successful_registration.html')
+
 
 class ActivationView(View):
     def get(self, request):
@@ -39,10 +41,14 @@ class SigninView(LoginView):
 class ProfileView(DetailView):
     model = User
     template_name = 'users/profile.html'
+    pk_url_kwarg = 'email'
+
 
 
 class ForgotPassword():
     pass
+
+
 
 class ChangePassword():
     pass
