@@ -44,6 +44,3 @@ class ReviewProduct(models.Model):
     def __str__(self):
         return f'Оставил комментарии {self.user} на продукт {self.product}'
 
-
-
-

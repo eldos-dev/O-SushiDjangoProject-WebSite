@@ -139,18 +139,18 @@
                             <li class="cart-icon">
                                 <a href="#">
                                     <i class="icon_bag_alt"></i>
-                                    <span>3</span>
+                                    <span>2</span>
                                 </a>
                                 <div class="cart-hover">
                                     <div class="select-items">
                                         <table>
                                             <tbody>
                                                 <tr>
-                                                    <td class="si-pic"><img src="{% static 'img/select-product-1.jpg' %}" alt=""></td>
+                                                    <td class="si-pic"><img src="{% static 'img/california-roll-1.jpg' %}" alt=""></td>
                                                     <td class="si-text">
                                                         <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
+                                                            <p>520 сом</p>
+                                                            <h6>Калифорния</h6>
                                                         </div>
                                                     </td>
                                                     <td class="si-close">
@@ -158,11 +158,11 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="si-pic"><img src="{% static 'img/select-product-2.jpg' %}" alt=""></td>
+                                                    <td class="si-pic"><img src="{% static 'img/california-roll-1.jpg' %}" alt=""></td>
                                                     <td class="si-text">
                                                         <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
+                                                            <p>450 сом</p>
+                                                            <h6>Филадельфия</h6>
                                                         </div>
                                                     </td>
                                                     <td class="si-close">
@@ -173,16 +173,16 @@
                                         </table>
                                     </div>
                                     <div class="select-total">
-                                        <span>total:</span>
-                                        <h5>$120.00</h5>
+                                        <span>Общая сумма:</span>
+                                        <h5>970 сом</h5>
                                     </div>
                                     <div class="select-button">
                                         <a href="#" class="primary-btn view-card">Корзина</a>
-                                        <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                        <a href="#" class="primary-btn checkout-btn">Заказать</a>
                                     </div>
                                 </div>
                             </li>
-                            <li class="cart-price">$150.00</li>
+                            <li class="cart-price">970 сом</li>
                         </ul>
                     </div>
                 </div>
@@ -205,17 +205,17 @@
                     <ul>
                         <li class="active"><a href="{% url 'index' %}" style="background-color: #ed1890">Главная</a></li>
                         <li><a href="./shop.html">О нас</a></li>
-                        <li><a href="./blog.html">Отзывы</a></li>
+                        <li><a href="{% url 'review-list' %}">Отзывы</a></li>
                         <li><a href="./contact.html">Контакты</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                {% if request.user.is_superuser %}
-                                    <li><a href="{% url 'product-create' %}">Создать продукт</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'registration' %}">Регистрация</a></li>
-                                <li><a href="login">Войти</a></li>
-                            </ul>
-                        </li>
+<!--                        <li><a href="#">Pages</a>-->
+<!--                            <ul class="dropdown">-->
+<!--                                {% if request.user.is_superuser %}-->
+<!--                                    <li><a href="{% url 'product-create' %}">Создать продукт</a></li>-->
+<!--                                {% endif %}-->
+<!--                                <li><a href="{% url 'registration' %}">Регистрация</a></li>-->
+<!--                                <li><a href="login">Войти</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>
@@ -239,18 +239,16 @@
                 <div class="col-lg-4">
                     <div class="footer-left">
                         <div class="footer-logo">
-                            <a href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                            <a href="{% url 'index' %}"><img src="{% static 'img/logo_w.png' %}" alt=""></a>
                         </div>
                         <ul>
-                            <li>Address: 60-49 Road 11378 New York</li>
-                            <li>Phone: +65 11.188.888</li>
-                            <li>Email: hello.colorlib@gmail.com</li>
+                            <li>Адрес: г.Бишкек, ул. Логвиненко 12</li>
+                            <li>Тел: +(996) 706-225-778</li>
+                            <li>Email: osushi@gmail.com</li>
                         </ul>
                         <div class="footer-social">
                             <a href="#"><i class="fa fa-facebook"></i></a>
                             <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
                         </div>
                     </div>
                 </div>
@@ -268,21 +266,11 @@
                     <div class="footer-widget">
                         <h5>Мой аккаунт</h5>
                         <ul>
-                            <li><a href="#">Мой профиль</a></li>
+                            <li><a href="{% url 'user-profile' request.user.pk %}">Мой профиль</a></li>
                         </ul>
                     </div>
                     {% endif %}
                 </div>
-<!--                <div class="col-lg-4">-->
-<!--                    <div class="newslatter-item">-->
-<!--                        <h5>Join Our Newsletter Now</h5>-->
-<!--                        <p>Get E-mail updates about our latest shop and special offers.</p>-->
-<!--                        <form action="#" class="subscribe-form">-->
-<!--                            <input type="text" placeholder="Enter Your Mail">-->
-<!--                            <button type="button">Subscribe</button>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
         </div>
         <div class="copyright-reserved">

@@ -22,6 +22,8 @@ urlpatterns = [
     path('', include('apps.product.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('apps.users.urls')),
+    path('orders/', include('apps.order.urls')),
+    path('oauth/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:

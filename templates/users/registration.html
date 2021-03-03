@@ -64,7 +64,8 @@
                             <button type="submit" class="site-btn register-btn">REGISTER</button>
                         </form>
                         <div class="switch-login">
-                            <a href="{% url 'login' %}" class="or-login">Or Login</a>
+<!--                            <a href="{% url 'login' %}" class="or-login">Or Login</a>-->
+                            <a href="{% url 'social:begin' 'google-oauth2' %}" class="login-panel"><i class="icon-google-plus"></i> Log in with Google</a>
                         </div>
                     </div>
                 </div>
