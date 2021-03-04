@@ -14,7 +14,6 @@ def get_cart_items(request):
         for item in cart_items:
             count += 1
             price_product += (item.product.price * item.qty)
-
         context = {
             'cart_items_base': cart_items,
             'count_products': count,

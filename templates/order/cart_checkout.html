@@ -20,11 +20,21 @@
     </div>
     <!-- Breadcrumb Section Begin -->
 
-<h1>{{ cart_items.cart }}</h1>
-
     <!-- Shopping Cart Section Begin -->
     <section class="shopping-cart spad">
         <div class="container">
+
+          <ul class="messages">
+            {% for message in messages %}
+              <div class="alert alert-success" role="alert">
+                  <strong>{{ message }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+          </ul>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="cart-table">
@@ -49,15 +59,22 @@
                                     <td class="p-price first-row">{{ item.product.price | floatformat:"0" }} сом</td>
                                     <td class="qua-col first-row">
                                         <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="{{ item.qty }}">
-                                            </div>
+                                            <form action="{% url 'change_qty' item.product.pk %}" method="POST">
+                                                {% csrf_token %}
+                                                <div class="pro-qty">
+                                                    <input name="change_qty" type="number" min="1" value="{{ item.qty }}">
+                                                </div>
+                                                    <input type="submit" class="btn btn-success" style="background-color: #ed1890; margin: 10px 58px 0 0" value="Изменть кл-во">
+                                            </form>
                                         </div>
                                     </td>
-                                    <td class="total-price first-row">{{ item.product.price | floatformat:"0" }} сом</td>
-                                    <td class="close-td first-row"><i class="ti-close"></i></td>
+                                    <td class="total-price first-row">{{ item.final_price | floatformat:"0" }} сом</td>
+                                    <td class="close-td first-row"><a href="{% url 'remove-from-cart' item.product.pk %}"><i class="ti-close"></i></a></td>
                                 </tr>
                             {% endfor %}
+                            {% if count_products == 0 %}
+                                <h1 style="margin-top: -50px; color: #ed1890; text-align: center"><strong>Ваша корзина пуста</strong></h1>
+                            {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -78,10 +95,10 @@
                         <div class="col-lg-4 offset-lg-4">
                             <div class="proceed-checkout">
                                 <ul>
-                                    <li class="subtotal">Subtotal <span>{{ total_price_product | floatformat:"0" }} сом</span></li>
-                                    <li class="cart-total">Total <span>{{ total_price_product | floatformat:"0" }} сом</span></li>
+                                    <li class="subtotal"><strong>Итого: </strong><span>{{ count_products }}</span></li>
+                                    <li class="cart-total">Общая цена: <span>{{ total_price_product | floatformat:"0" }} сом</span></li>
                                 </ul>
-                                <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
+                                <a href="#" class="proceed-btn" style="background-color: #e7ab3c">Оформить заказ</a>
                             </div>
                         </div>
                     </div>
