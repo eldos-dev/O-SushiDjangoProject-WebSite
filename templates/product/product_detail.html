@@ -98,7 +98,18 @@
                                     <div class="pro-qty">
                                         <input type="text" value="1">
                                     </div>
-                                    <a href="#" class="primary-btn pd-cart bg-color">В корзину</a>
+                                    {% if request.user.is_authenticated %}
+                                        <a href="{% url 'add-to-cart' pk=product.pk %}" class="primary-btn pd-cart bg-color">В корзину</a>
+                                    {% endif %}
+<!--                                    <form id="form_buying_product">-->
+<!--                                    <button type="submit" id="submit_btn" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;"-->
+<!--                                          data-product_price="{{ product.price }}"-->
+<!--                                          data-product_id="{{ product.id }}"-->
+<!--                                          data-product_title="{{ product.title }}"-->
+<!--                                          >-->
+<!--                                              В корзину-->
+<!--                                          </button>-->
+<!--                                        </form>-->
                                 </div>
                                 <ul class="pd-tags">
                                     <li><span>Доп инфо</span>: {{ product.additional_information }}</li>
@@ -135,7 +146,7 @@
                                 </div>
                                 <div class="tab-pane fade-in" id="tab-3" role="tabpanel">
                                     <div class="customer-review-option">
-                                        <h4>{{ reviews_count }}</h4>
+                                        <h4>Количество отзывов: {{ reviews_count }}</h4>
                                         {% for review in reviews %}
                                             <div class="comment-option">
                                                 <div class="co-item">
@@ -156,18 +167,7 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                        <div class="personal-rating">
-                                            <h6>Your Ratind</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
                                         <div class="leave-comment">
-                                            <h4>Оставить отзыв</h4>
                                             <form class="comment-form" method="post">
                                                 {% csrf_token %}
                                                 <div class="row">

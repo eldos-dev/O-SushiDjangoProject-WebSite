@@ -1,6 +1,5 @@
-from django.views.generic import ListView
-
 from .models import Category, Product, ReviewProduct
+
 
 
 def get_categories(request):
@@ -26,3 +25,4 @@ def get_products(request):
         'products_count': products_count
     }
     return context
+

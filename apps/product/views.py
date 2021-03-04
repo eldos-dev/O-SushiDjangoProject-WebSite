@@ -1,11 +1,10 @@
-from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.views.generic import ListView, DetailView, DeleteView, CreateView
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.utils import timezone
-from django.contrib import messages
-from django.views.generic import ListView, TemplateView, DetailView, DeleteView, CreateView
+from django.http import HttpResponseRedirect
 from django.views.generic.base import View
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.db.models import Q
 
 from apps.product.forms import CreateProductForm, CreateReviewProductForm
 from apps.product.models import Product, Category, ReviewProduct

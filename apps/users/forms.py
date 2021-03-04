@@ -1,6 +1,8 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django import forms
+from django.core.exceptions import ValidationError
 
+from apps.order.models import Cart
 from apps.users.utils import send_activation_mail
 
 User = get_user_model()
@@ -29,7 +31,60 @@ class RegistrationForm(forms.ModelForm):
         return email
 
     def save(self, commit=False):
-        user = User.objects.create(**self.cleaned_data)
+        user = User.objects.create_user(**self.cleaned_data)
+        Cart.objects.create(owner=user)
         # Письмо с активацией
         send_activation_mail(user)
         return user
+
+
+class SigninForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(SigninForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+
+    def clean(self):
+        username = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        if username is not None and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                # raise forms.ValidationError('Your email with given password does not match.')
+                raise self.get_invalid_login_error()
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
+
+    def confirm_login_allowed(self, user):
+        """
+        Controls whether the given User may log in. This is a policy setting,
+        independent of end-user authentication. This default behavior is to
+        allow login by active users, and reject login by inactive users.
+
+        If the given user cannot log in, this method should raise a
+        ``ValidationError``.
+
+        If the given user may log in, this method should return None.
+        """
+        if not user.is_active:
+            raise ValidationError(
+                self.error_messages['inactive'],
+                code='inactive',
+            )
+
+    def get_user(self):
+        return self.user_cache
+
+    def get_invalid_login_error(self):
+        return ValidationError(
+            self.error_messages['invalid_login'],
+            code='invalid_login',
+            params={'username': self.username_field.verbose_name},
+        )
+

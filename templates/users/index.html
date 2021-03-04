@@ -95,10 +95,7 @@
                 <div class="col-lg-8 offset-lg-1">
                     <div class="filter-control">
                         <ul>
-                            <li class="active">{{ product.category.name }}</li>
-<!--                            <li>HandBag</li>-->
-<!--                            <li>Shoes</li>-->
-<!--                            <li>Accessories</li>-->
+                            <li class="active">Напитки</li>
                         </ul>
                     </div>
                     <div class="product-slider owl-carousel">
@@ -154,12 +151,28 @@
                           <div class="price-t" style="width: 100px; line-height: 1; padding: 7px; color: #fff; background-color: #ed1890; margin: 20px auto 0 auto">
                               <h5 style="font-weight: 900; font-size: 18px;">{{ product.price | floatformat:"0" }} сом</h5>
                           </div>
-                          <div class="d-grid gap-2 col-6 mx-auto">
-                            <a href="{% url 'product-detail' product.pk %}" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">
-<!--                                <i class="icon-shopping-cart" style="font-size: 20px; padding-right: 15px"></i>-->
-                                Подробнее
-                            </a>
-                          </div>
+                              <div class="col-12">
+                                  <div class="d-grid gap-2 col-6" style="float: left;">
+<!--                                      <form id="form_buying_product">-->
+                                          <a href="{% url 'product-detail' product.pk %}" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">
+                                            <i class="icon-shopping-cart" style="font-size: 20px; padding-right: 15px"></i>
+                                          </a>
+<!--                                      <button type="submit" id="submit_btn" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;"-->
+<!--                                      data-product_price="{{ product.price }}"-->
+<!--                                      data-product_id="{{ product.id }}"-->
+<!--                                      data-product_title="{{ product.title }}"-->
+<!--                                      >-->
+<!--                                          В корзину-->
+<!--                                      </button>-->
+<!--                                      </form>-->
+
+                                  </div>
+                                  <div class="d-grid gap-2 col-1 mx-auto">
+                                    <a href="{% url 'product-detail' product.pk %}" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">
+                                        Подробнее
+                                    </a>
+                                  </div>
+                                  </div>
                           </div>
                         </div>
                   </div>
@@ -184,10 +197,7 @@
                 <div class="col-lg-8">
                     <div class="filter-control">
                         <ul>
-                            <li class="active">Clothings</li>
-                            <li>HandBag</li>
-                            <li>Shoes</li>
-                            <li>Accessories</li>
+                            <li class="active">Супы</li>
                         </ul>
                     </div>
                     <div class="product-slider owl-carousel">

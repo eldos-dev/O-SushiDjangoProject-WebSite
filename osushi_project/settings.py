@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.product.context_processor.get_categories',
                 'apps.product.context_processor.get_products',
+                'apps.order.context_processor.get_cart_items',
 
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
@@ -160,7 +161,7 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
 
-CRISPY_TEMPLATE_PACK = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Social apps
 AUTHENTICATION_BACKENDS = (

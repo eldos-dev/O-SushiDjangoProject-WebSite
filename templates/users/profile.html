@@ -114,7 +114,7 @@ span.tags
 
                 </div>
             <div class="col-xs-12 col-sm-4 text-center">
-            <figure>
+            <figure style="margin-top: 40px">
                 <img src="{% static 'img/insta-5.jpg' %}" alt="user" class="img-circle img-responsive">
             </figure>
             </div>
@@ -128,6 +128,7 @@ span.tags
                            <i class="icon-plus" style="font-size: 20px; padding-right: 15px"></i>
                             Создать продукт
                         </a>
+                        <a href="{% url 'index_admin' %}" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">Перейти в админку</a>
                     </div>
                 {% else %}
                     <div class="col-xs-12 col-sm-4 emphasis">
