@@ -41,9 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
 
+    # social apps
+    'social_django',
+
     # my apps
     'apps.users',
     'apps.product',
+    'apps.order',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'osushi_project.urls'
@@ -71,6 +77,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.product.context_processor.get_categories',
                 'apps.product.context_processor.get_products',
+                'apps.order.context_processor.get_cart_items',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -151,8 +161,20 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
 
-CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# Social apps
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '677876801724-uqjremtcboatqubtpi5asngfeqqa9gsq.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'sxJyt1yYmeizF_8reS0DGNbQ'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 
 

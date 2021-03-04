@@ -1,11 +1,10 @@
-from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.views.generic import ListView, DetailView, DeleteView, CreateView
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.utils import timezone
-from django.contrib import messages
-from django.views.generic import ListView, TemplateView, DetailView, DeleteView, CreateView
+from django.http import HttpResponseRedirect
 from django.views.generic.base import View
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.db.models import Q
 
 from apps.product.forms import CreateProductForm, CreateReviewProductForm
 from apps.product.models import Product, Category, ReviewProduct
@@ -28,7 +27,7 @@ class IndexPage(ListView):
         context = super().get_context_data(**kwargs)
         search = self.request.GET.get('search')
         if search:
-            context['products'] = Product.objects.filter(Q(title__icontains=search) | Q(description__icontains=search))  # Если recipes раньше возвращал нам все объекты, то теперь мы его переопределим
+            context['products'] = Product.objects.filter(Q(title__icontains=search) | Q(description__icontains=search))
         return context
 
 class CategoryDetailView(DetailView):
@@ -79,7 +78,7 @@ class ProductCreateView(SuperUserCheckMixin, CreateView):
     model = Product
     form_class = CreateProductForm
     template_name = 'product/product_create.html'
-    success_url = reverse_lazy('product-detail')
+    success_url = reverse_lazy('product-create')
 
 
 class ProductEditView(SuperUserCheckMixin, View):
@@ -115,3 +114,8 @@ class ProductDeleteView(SuperUserCheckMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
+
+class ReviewIndexPage(ListView):
+    model = ReviewProduct
+    template_name = 'review_page.html'
+    context_object_name = 'all_reviews'

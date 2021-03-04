@@ -5,8 +5,7 @@ from django.contrib.auth import get_user_model
 from django.views.generic.base import View
 from django.urls import reverse_lazy
 
-from apps.users.forms import RegistrationForm
-
+from apps.users.forms import RegistrationForm, SigninForm
 
 User = get_user_model()
 
@@ -34,6 +33,7 @@ class ActivationView(View):
 
 
 class SigninView(LoginView):
+    form_class = SigninForm
     template_name = 'users/login.html'
     success_url = reverse_lazy('index')
 

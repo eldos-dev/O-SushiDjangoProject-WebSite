@@ -20,7 +20,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb-text product-more">
                         <a href="{% url 'index' %}"><i class="fa fa-home"></i> Главная</a>
-                        <a href="#">{{ product.category.name }}</a>
+                        <a href="{% url 'category-detail' product.category.slug %}">{{ product.category.name }}</a>
                         <span>{{ product.title }}</span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="filter-widget">
-                        <h4 class="fw-title">Price</h4>
+                        <h4 class="fw-title">Цена</h4>
                         <div class="filter-range-wrap">
                             <div class="range-slider">
                                 <div class="price-input">
@@ -43,13 +43,13 @@
                                         {% csrf_token %}
                                         <input name="min" type="text" id="minamount">
                                         <input name='max' type="text" id="maxamount">
-<!--                                        <a type="submit" href="#" class="filter-btn" style="">Отсортировать</a>-->
-                                        <button class="filter-btn" type="submit" >Sort</button>
+                                        <a type="submit" href="#" class="filter-btn" style="">Отсортировать</a>
+<!--                                        <button class="filter-btn" type="submit" >Sort</button>-->
                                     </form>
                                 </div>
                             </div>
                             <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                data-min="33" data-max="98">
+                                data-min="100" data-max="1000">
                                 <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
                                 <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                 <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
@@ -98,7 +98,18 @@
                                     <div class="pro-qty">
                                         <input type="text" value="1">
                                     </div>
-                                    <a href="#" class="primary-btn pd-cart bg-color">В корзину</a>
+                                    {% if request.user.is_authenticated %}
+                                        <a href="{% url 'add-to-cart' pk=product.pk %}" class="primary-btn pd-cart bg-color">В корзину</a>
+                                    {% endif %}
+<!--                                    <form id="form_buying_product">-->
+<!--                                    <button type="submit" id="submit_btn" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;"-->
+<!--                                          data-product_price="{{ product.price }}"-->
+<!--                                          data-product_id="{{ product.id }}"-->
+<!--                                          data-product_title="{{ product.title }}"-->
+<!--                                          >-->
+<!--                                              В корзину-->
+<!--                                          </button>-->
+<!--                                        </form>-->
                                 </div>
                                 <ul class="pd-tags">
                                     <li><span>Доп инфо</span>: {{ product.additional_information }}</li>
@@ -135,7 +146,7 @@
                                 </div>
                                 <div class="tab-pane fade-in" id="tab-3" role="tabpanel">
                                     <div class="customer-review-option">
-                                        <h4>{{ reviews_count }}</h4>
+                                        <h4>Количество отзывов: {{ reviews_count }}</h4>
                                         {% for review in reviews %}
                                             <div class="comment-option">
                                                 <div class="co-item">
@@ -156,18 +167,7 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                        <div class="personal-rating">
-                                            <h6>Your Ratind</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
                                         <div class="leave-comment">
-                                            <h4>Оставить отзыв</h4>
                                             <form class="comment-form" method="post">
                                                 {% csrf_token %}
                                                 <div class="row">

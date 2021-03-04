@@ -1,6 +1,6 @@
-from django.views.generic import ListView
+from .models import Category, Product, ReviewProduct
 
-from .models import Category, Product
+
 
 def get_categories(request):
     categories = Category.objects.all()
@@ -10,5 +10,19 @@ def get_categories(request):
 def get_products(request):
     products = Product.objects.all()[0:6]
     products_4 = Product.objects.all()[0:4]
-    return {'products': products, 'products_4': products_4}
+    category = Category.objects.get(slug='supyi')
+    products_category = Product.objects.filter(category=category)
+    category_napitki = Category.objects.get(slug='napitki')
+    products_napitki = Product.objects.filter(category=category_napitki)
+
+    products_count = Product.objects.all().count()
+
+    context = {
+        'products': products,
+        'products_4': products_4,
+        'products_category': products_category,
+        'products_napitki': products_napitki,
+        'products_count': products_count
+    }
+    return context
 

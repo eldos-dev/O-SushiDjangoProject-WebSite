@@ -102,7 +102,7 @@
 <!--                    </div>-->
                     <div class="top-social">
                         <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-instagram"></i></a>
+                        <a href="https://www.instagram.com/osushimsk/"><i class="ti-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                     <div class="col-lg-2 col-md-2">
                         <div class="logo">
                             <a href="{% url 'index' %}">
-                                <img src="{% static 'img/logo.png' %}" alt="">
+                                <img src="{% static 'img/logo1.png' %}" alt="">
                             </a>
                         </div>
                     </div>
@@ -128,63 +128,69 @@
                             </div>
                         </div>
                     </div>
+                    {% if request.user.is_authenticated %}
                     <div class="col-lg-3 text-right col-md-3">
                         <ul class="nav-right">
                             <li class="heart-icon">
                                 <a href="#">
                                     <i class="icon_heart_alt"></i>
-                                    <span>1</span>
+                                    <span>0</span>
                                 </a>
                             </li>
                             <li class="cart-icon">
-                                <a href="#">
+                                <a href="{% url 'cart' %}">
                                     <i class="icon_bag_alt"></i>
-                                    <span>3</span>
+                                    <span>{{ count_products }}</span>
                                 </a>
-                                <div class="cart-hover">
+                                <div class="cart-hover" style="width: 500px">
                                     <div class="select-items">
                                         <table>
                                             <tbody>
-                                                <tr>
-                                                    <td class="si-pic"><img src="{% static 'img/select-product-1.jpg' %}" alt=""></td>
-                                                    <td class="si-text">
-                                                        <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="si-close">
-                                                        <i class="ti-close"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="si-pic"><img src="{% static 'img/select-product-2.jpg' %}" alt=""></td>
-                                                    <td class="si-text">
-                                                        <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="si-close">
-                                                        <i class="ti-close"></i>
-                                                    </td>
-                                                </tr>
+                                                {% for item in cart_items_base %}
+                                                    <tr>
+                                                        <td class="si-pic"><img src="{{ item.product.image.url }}" alt="" width="200px" height="auto"></td>
+                                                        <td class="si-text">
+                                                            <div class="product-selected">
+                                                                <p>{{ item.product.price | floatformat:"0" }} сом</p>
+                                                                <h5 style="font-weight: 800">{{ item.product.title }}</h5>
+                                                                <h6>Количество: {{ item.qty }}</h6>
+                                                            </div>
+                                                        </td>
+                                                        <td class="si-close">
+                                                            <i class="ti-close"></i>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+<!--                                                <tr id="item-id">-->
+<!--                                                        <td class="si-pic"><img src="{{ item.product.image.url }}" alt="" width="200px" height="auto"></td>-->
+<!--                                                        <td class="si-text">-->
+<!--                                                            <div class="product-selected">-->
+<!--                                                                <p id="item-p">{{ item.product.price | floatformat:"0" }} сом</p>-->
+<!--                                                                <h5 style="font-weight: 800">{{ item.product.title }}</h5>-->
+<!--                                                                <h6>Количество: {{ item.qty }}</h6>-->
+<!--                                                            </div>-->
+<!--                                                        </td>-->
+<!--                                                        <td class="si-close">-->
+<!--                                                            <i class="ti-close"></i>-->
+<!--                                                        </td>-->
+<!--                                                    </tr>-->
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="select-total">
-                                        <span>total:</span>
-                                        <h5>$120.00</h5>
+                                        <span>Общая сумма:</span>
+                                        <h5>{{ total_price_product | floatformat:"0" }} сом</h5>
                                     </div>
                                     <div class="select-button">
-                                        <a href="#" class="primary-btn view-card">Корзина</a>
-                                        <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                        <a href="{% url 'cart' %}" class="primary-btn view-card">Корзина</a>
+                                        <a href="#" class="primary-btn checkout-btn">Заказать</a>
                                     </div>
                                 </div>
                             </li>
-                            <li class="cart-price">$150.00</li>
+                            <li class="cart-price">{{ total_price_product | floatformat:"0" }} сом</li>
                         </ul>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -205,17 +211,17 @@
                     <ul>
                         <li class="active"><a href="{% url 'index' %}" style="background-color: #ed1890">Главная</a></li>
                         <li><a href="./shop.html">О нас</a></li>
-                        <li><a href="./blog.html">Отзывы</a></li>
+                        <li><a href="{% url 'review-list' %}">Отзывы</a></li>
                         <li><a href="./contact.html">Контакты</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                {% if request.user.is_superuser %}
-                                    <li><a href="{% url 'product-create' %}">Создать продукт</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'registration' %}">Регистрация</a></li>
-                                <li><a href="login">Войти</a></li>
-                            </ul>
-                        </li>
+<!--                        <li><a href="#">Pages</a>-->
+<!--                            <ul class="dropdown">-->
+<!--                                {% if request.user.is_superuser %}-->
+<!--                                    <li><a href="{% url 'product-create' %}">Создать продукт</a></li>-->
+<!--                                {% endif %}-->
+<!--                                <li><a href="{% url 'registration' %}">Регистрация</a></li>-->
+<!--                                <li><a href="login">Войти</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
                     </ul>
                 </nav>
                 <div id="mobile-menu-wrap"></div>
@@ -239,18 +245,16 @@
                 <div class="col-lg-4">
                     <div class="footer-left">
                         <div class="footer-logo">
-                            <a href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                            <a href="{% url 'index' %}"><img src="{% static 'img/logo_w.png' %}" alt=""></a>
                         </div>
                         <ul>
-                            <li>Address: 60-49 Road 11378 New York</li>
-                            <li>Phone: +65 11.188.888</li>
-                            <li>Email: hello.colorlib@gmail.com</li>
+                            <li>Адрес: г.Бишкек, ул. Логвиненко 12</li>
+                            <li>Тел: +(996) 706-225-778</li>
+                            <li>Email: osushi@gmail.com</li>
                         </ul>
                         <div class="footer-social">
                             <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <a href="https://www.instagram.com/osushimsk/"><i class="fa fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
@@ -268,21 +272,11 @@
                     <div class="footer-widget">
                         <h5>Мой аккаунт</h5>
                         <ul>
-                            <li><a href="#">Мой профиль</a></li>
+                            <li><a href="{% url 'user-profile' request.user.pk %}">Мой профиль</a></li>
                         </ul>
                     </div>
                     {% endif %}
                 </div>
-<!--                <div class="col-lg-4">-->
-<!--                    <div class="newslatter-item">-->
-<!--                        <h5>Join Our Newsletter Now</h5>-->
-<!--                        <p>Get E-mail updates about our latest shop and special offers.</p>-->
-<!--                        <form action="#" class="subscribe-form">-->
-<!--                            <input type="text" placeholder="Enter Your Mail">-->
-<!--                            <button type="button">Subscribe</button>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
         </div>
         <div class="copyright-reserved">
@@ -311,26 +305,35 @@
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    #My Custom jQuery
+    <script src="{% static 'js/cart-scripts.js' %}"></script>
+
+    <!--Подключаем библиотеку-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
       <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="static 'files/js/bootstrap.js' %}"></script>
-  <!-- SmartMenus jQuery plugin -->
-  <script type="text/javascript" src="static 'files/js/jquery.smartmenus.js' %}"></script>
-  <!-- SmartMenus jQuery Bootstrap Addon -->
-  <script type="text/javascript" src="static 'files/js/jquery.smartmenus.bootstrap.js' %}"></script>
-  <!-- To Slider JS -->
-  <script src="static 'files/js/sequence.js' %}"></script>
-  <script src="static 'files/js/sequence-theme.modern-slide-in.js' %}"></script>
-  <!-- Product view slider -->
-  <script type="text/javascript'" src="static 'files/js/jquery.simpleGallery.js' %}"></script>
-  <script type="text/javascript'" src="static 'files/js/jquery.simpleLens.js' %}"></script>
-  <!-- slick slider -->
-  <script type="text/javascript" src="static 'files/js/slick.js' %}"></script>
-  <!-- Price picker slider -->
-  <script type="text/javascript" src="static 'files/js/nouislider.js' %}"></script>
-  <!-- Custom js -->
-  <script src="static 'files/js/custom.js' %}"></script>
+<!--  <script src="static 'files/js/bootstrap.js' %}"></script>-->
+<!--  &lt;!&ndash; SmartMenus jQuery plugin &ndash;&gt;-->
+<!--  <script type="text/javascript" src="static 'files/js/jquery.smartmenus.js' %}"></script>-->
+<!--  &lt;!&ndash; SmartMenus jQuery Bootstrap Addon &ndash;&gt;-->
+<!--  <script type="text/javascript" src="static 'files/js/jquery.smartmenus.bootstrap.js' %}"></script>-->
+<!--  &lt;!&ndash; To Slider JS &ndash;&gt;-->
+<!--  <script src="static 'files/js/sequence.js' %}"></script>-->
+<!--  <script src="static 'files/js/sequence-theme.modern-slide-in.js' %}"></script>-->
+<!--  &lt;!&ndash; Product view slider &ndash;&gt;-->
+<!--  <script type="text/javascript'" src="static 'files/js/jquery.simpleGallery.js' %}"></script>-->
+<!--  <script type="text/javascript'" src="static 'files/js/jquery.simpleLens.js' %}"></script>-->
+<!--  &lt;!&ndash; slick slider &ndash;&gt;-->
+<!--  <script type="text/javascript" src="static 'files/js/slick.js' %}"></script>-->
+<!--  &lt;!&ndash; Price picker slider &ndash;&gt;-->
+<!--  <script type="text/javascript" src="static 'files/js/nouislider.js' %}"></script>-->
+<!--  &lt;!&ndash; Custom js &ndash;&gt;-->
+<!--  <script src="static 'files/js/custom.js' %}"></script>-->
+
+
 </body>
 
 </html>
