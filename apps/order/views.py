@@ -1,21 +1,40 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
+from django.utils import timezone
+
+from django.views.generic import ListView
 from django.views.generic.base import View
 
-from apps.order.models import Cart, CartItem
+from apps.order.models import Cart, CartItem, Order
 from apps.product.models import Product
+
+from .forms import OrderForm
+from .permissions import SuperUserAdminMixin
 
 User = get_user_model()
 
-def index_admin_panel(request):
-    return render(request, 'order/index_admin_panel.html')
+
+class IndexAdminView(SuperUserAdminMixin, ListView):
+    model = Order
+    template_name = 'order/index_admin_panel.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        queryset = super(IndexAdminView, self).get_queryset()
+        today_ = timezone.now().date()
+        queryset = queryset.filter(create_at__date=today_).order_by('-create_at')
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['count'] = Order.objects.count()
+        return context
+
 
 
 def order_detail(request):
     return render(request, 'order/order_detail.html')
-
-
 
 
 class CartItemView(View):
@@ -73,3 +92,41 @@ class ChangeQuantityView(View):
         cart.save()
         messages.add_message(request, messages.INFO, 'Количество успешно изменено!')
         return redirect('cart')
+
+
+class OrderCheckoutView(View):
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(email=request.user.email)
+        cart = Cart.objects.get(owner=user)
+        cart_items = CartItem.objects.filter(cart=cart)
+        form = OrderForm(request.POST, None)
+        context = {
+            'cart': cart,
+            'cart_items': cart_items,
+            'form': form,
+        }
+        return render(request, 'order/order_checkout.html', context)
+
+
+class MakeOrderView(View):
+
+    def post(self, request, *args, **kwargs):
+        user = User.objects.get(email=request.user.email)
+        cart = Cart.objects.get(owner=user)
+        form = OrderForm(request.POST, None)
+        if form.is_valid():
+            new_order = form.save(commit=False)
+            cart.in_order = True
+            new_order.cart = cart
+            new_order.customer = user
+            new_order.save()
+            messages.add_message(request, messages.INFO, 'Спасибо за заказ! Менеджер с Вами свяжется')
+            return redirect('index')
+        return redirect('order_checkout')
+
+
+class UpdateOrderAdminView(View):
+
+    def post(self, request, *args, **kwargs):
+        pass

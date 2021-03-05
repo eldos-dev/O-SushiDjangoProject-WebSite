@@ -81,14 +81,13 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="cart-buttons">
-                                <a href="{% url 'products-list' %}" class="primary-btn continue-shop">Продолжить покупку</a>
-                                <a href="#" class="primary-btn up-cart">Обновить корзину</a>
+                                <a href="{% url 'products-list' %}" class="primary-btn up-cart" style="background-color: #e7ab3c">Продолжить покупку</a>
                             </div>
                             <div class="discount-coupon">
-                                <h6>Discount Codes</h6>
+                                <h6><strong>Промокод</strong></h6>
                                 <form action="#" class="coupon-form">
-                                    <input type="text" placeholder="Enter your codes">
-                                    <button type="submit" class="site-btn coupon-btn">Apply</button>
+                                    <input type="text" placeholder="Введите ваш код">
+                                    <button type="submit" class="site-btn coupon-btn" >Применить</button>
                                 </form>
                             </div>
                         </div>
@@ -98,7 +97,7 @@
                                     <li class="subtotal"><strong>Итого: </strong><span>{{ count_products }}</span></li>
                                     <li class="cart-total">Общая цена: <span>{{ total_price_product | floatformat:"0" }} сом</span></li>
                                 </ul>
-                                <a href="#" class="proceed-btn" style="background-color: #e7ab3c">Оформить заказ</a>
+                                <a href="{% url 'order_checkout' %}" class="proceed-btn" style="background-color: #e7ab3c; color: black">Перейти к оформлению</a>
                             </div>
                         </div>
                     </div>
@@ -108,39 +107,7 @@
     </section>
     <!-- Shopping Cart Section End -->
 
-    <!-- Partner Logo Section Begin -->
-    <div class="partner-logo">
-        <div class="container">
-            <div class="logo-carousel owl-carousel">
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-1.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-2.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-3.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-4.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-5.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Partner Logo Section End -->
+
 
 
 {% endblock %}

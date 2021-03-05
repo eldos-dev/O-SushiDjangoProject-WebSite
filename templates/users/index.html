@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Index Page{% endblock %}
+{% block title %}Главная О!Суши{% endblock %}
 
 {% block content %}
     <!-- Hero Section Begin -->
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="off-card">
-                        <h2 style="color:black">Sale <span>10%</span></h2>
+                        <h2 style="color:black">Скидка <span>10%</span></h2>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                                     <i class="icon_heart_alt"></i>
                                 </div>
                                 <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="w-icon active"><a href="{% url 'add-to-cart' pk=product.pk %}"><i class="icon_bag_alt"></i></a></li>
                                     <li class="quick-view"><a href="{% url 'product-detail' product.pk %}">Узнать больше</a></li>
                                 </ul>
                             </div>
@@ -152,22 +152,7 @@
                               <h5 style="font-weight: 900; font-size: 18px;">{{ product.price | floatformat:"0" }} сом</h5>
                           </div>
                               <div class="col-12">
-                                  <div class="d-grid gap-2 col-6" style="float: left;">
-<!--                                      <form id="form_buying_product">-->
-                                          <a href="{% url 'product-detail' product.pk %}" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">
-                                            <i class="icon-shopping-cart" style="font-size: 20px; padding-right: 15px"></i>
-                                          </a>
-<!--                                      <button type="submit" id="submit_btn" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;"-->
-<!--                                      data-product_price="{{ product.price }}"-->
-<!--                                      data-product_id="{{ product.id }}"-->
-<!--                                      data-product_title="{{ product.title }}"-->
-<!--                                      >-->
-<!--                                          В корзину-->
-<!--                                      </button>-->
-<!--                                      </form>-->
-
-                                  </div>
-                                  <div class="d-grid gap-2 col-1 mx-auto">
+                                  <div class="d-grid gap-2 col-8 mx-auto">
                                     <a href="{% url 'product-detail' product.pk %}" class="btn button b-button solid" style="background-color: #7cc832; padding: 15px; color: white; margin-top: 20px;     text-transform: uppercase;">
                                         Подробнее
                                     </a>
@@ -210,7 +195,7 @@
                                     <i class="icon_heart_alt"></i>
                                 </div>
                                 <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="w-icon active"><a href="{% url 'add-to-cart' pk=product.pk %}"><i class="icon_bag_alt"></i></a></li>
                                     <li class="quick-view"><a href="{% url 'product-detail' product.pk %}">Узнать больше</a></li>
                                 </ul>
                             </div>

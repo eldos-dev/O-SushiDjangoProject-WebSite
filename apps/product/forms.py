@@ -11,6 +11,7 @@ class CreateProductForm(forms.ModelForm):
 
 
 class CreateReviewProductForm(forms.ModelForm):
+
     class Meta:
         model = ReviewProduct
         fields = ['body', 'user', 'product',]
