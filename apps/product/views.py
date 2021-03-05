@@ -54,6 +54,7 @@ class ProductListView(ListView):
     paginate_by = 4
 
 
+
 class ProductDeatilView(View):
 
     def get(self, request, pk):

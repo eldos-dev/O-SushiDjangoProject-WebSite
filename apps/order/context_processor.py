@@ -17,7 +17,7 @@ def get_cart_items(request):
         context = {
             'cart_items_base': cart_items,
             'count_products': count,
-            'total_price_product': price_product
+            'total_price_product': price_product,
         }
         return context
     return ''

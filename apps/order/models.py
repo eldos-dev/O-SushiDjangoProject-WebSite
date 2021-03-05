@@ -34,25 +34,25 @@ class CartItem(models.Model):
 
 class Order(models.Model):
 
-    STATUS_NEW = 'new'
-    STATUS_IN_PROGRESS = 'in_progress'
-    STATUS_POSTPONED = 'postponed'
-    STATUS_READY_FOR_DELIVERY = 'ready_for_delivery'
-    STATUS_PICKED_UP_BY_COURIER = 'picked_up_by_courier'
-    STATUS_DELIVERED = 'delivered'
-    STATUS_COMPLETED = 'completed'
-    STATUS_CANCELED = 'canceled'
+    STATUS_NEW = 'Новый заказ'
+    STATUS_IN_PROGRESS = 'Заказ в обработке'
+    STATUS_POSTPONED = 'Отложен'
+    STATUS_READY_FOR_DELIVERY = 'Готов к доставке'
+    STATUS_PICKED_UP_BY_COURIER = 'Взят курьером'
+    STATUS_DELIVERED = 'Доставляется'
+    STATUS_COMPLETED = 'Выполнен'
+    STATUS_CANCELED = 'Отменен'
 
-    BUYING_TYPE_SELF = 'self'
-    BUYING_TYPE_DELIVERY = 'delivery'
+    BUYING_TYPE_SELF = 'Самовывоз'
+    BUYING_TYPE_DELIVERY = 'Доставка'
 
-    BRANCHE_VEFA = 'vefa'
-    BRANCHE_ASIA_MALL = 'asia_mall'
-    BRANCHE_TSUM = 'tsum'
-    BRANCHE_BISHKEK_PARK = 'bishkek_park'
+    BRANCHE_VEFA = 'Вефа'
+    BRANCHE_ASIA_MALL = 'Азия молл'
+    BRANCHE_TSUM = 'Цум'
+    BRANCHE_BISHKEK_PARK = 'Бишкек парк'
 
-    PAYMENT_IN_CASH = 'in_cash'
-    PAYMENT_BY_CREDIT_CARD = 'credit_card'
+    PAYMENT_IN_CASH = 'Наличными при получении'
+    PAYMENT_BY_CREDIT_CARD = 'Оплата банковской картой при получении'
 
     STATUS_CHOICES = (
         (STATUS_NEW, 'Новый заказ'),
@@ -84,19 +84,21 @@ class Order(models.Model):
     )
 
 
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель', blank=True, related_name='orders')
-    name = models.CharField(max_length=100, verbose_name='Имя')
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель', blank=True, related_name='user_orders')
+    name = models.CharField(max_length=100, verbose_name='Имя', blank=True)
+    last_name = models.CharField(max_length=100, verbose_name='Фамилия', null=True)
     address = models.CharField(max_length=100, verbose_name='Адрес')
     phone = models.CharField(max_length=15, verbose_name='Номер телефона')
-    person = models.IntegerField()
+    person = models.IntegerField(verbose_name='Сколько персон')
     payment = models.CharField(max_length=100, verbose_name='Тип оплаты', choices=PAYMENT_CHOICES, default=PAYMENT_BY_CREDIT_CARD)
-    status = models.CharField(max_length=100, verbose_name='Статус заказа', choices=STATUS_CHOICES, default=STATUS_NEW)
+    status = models.CharField(max_length=100, verbose_name='Статус заказа', choices=STATUS_CHOICES, default=STATUS_IN_PROGRESS)
     branch = models.CharField(max_length=100, verbose_name='Филиалы', choices=BRANCHES_CHOICES, default=BRANCHE_VEFA)
     delivery_type = models.CharField(max_length=100, verbose_name='Тип заказа', choices=BUYING_TYPE_CHOICES, default=BUYING_TYPE_SELF)
     comment = models.TextField(verbose_name='Комментарий к заказу', blank=True, null=True)
     create_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
     order_date = models.DateTimeField(default=timezone.now, verbose_name='Дата получения заказа')
-    total = models.DecimalField(max_digits=12, decimal_places=2)
+    total = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, related_name='order_cart', null=True, blank=True)
 
     street = models.CharField(max_length=100, verbose_name='Улица', blank=True, null=True)
     house = models.CharField(max_length=50, verbose_name='Дом', blank=True, null=True)
